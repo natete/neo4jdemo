@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class KnowsRequest {
+public class RelationshipRequest {
 
     private String userA;
     private String userB;

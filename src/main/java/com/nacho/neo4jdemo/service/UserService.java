@@ -20,7 +20,7 @@ public class UserService {
     }
 
     @Transactional
-    public void setKnowledge(String userA, String userB) {
+    public void setLikes(String userA, String userB) {
         final User userThatKnows = userRepository.findById(userA).orElseThrow();
         final User userKnown = userRepository.findById(userB).orElseThrow();
 
@@ -30,14 +30,30 @@ public class UserService {
     }
 
     @Transactional
-    public void setKnowledgeAlt(String userA, String userB) {
-        final User userThatKnows = userRepository.findById(userA).orElseThrow();
-        final User userKnown = userRepository.findById(userB).orElseThrow();
+    public void setLikesAlt(String userA, String userB) {
+        userRepository.addLikes(userA, userB);
+    }
 
-        userRepository.addKnows(userA, userB);
+    @Transactional
+    public void setHatesAlt(String userA, String userB) {
+        userRepository.addHates(userA, userB);
     }
 
     public User getUser(String name) {
-        return userRepository.findById(name).orElseThrow();
+        final User user = userRepository.findById(name).orElseThrow();
+        if (user.getLikes() != null) {
+            user.getLikes().forEach(liked -> {
+                liked.setLikes(null);
+                liked.setHates(null);
+            });
+        }
+
+        if (user.getHates() != null) {
+            user.getHates().forEach(hated -> {
+                hated.setLikes(null);
+                hated.setHates(null);
+            });
+        }
+        return user;
     }
 }

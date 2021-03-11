@@ -1,7 +1,7 @@
 package com.nacho.neo4jdemo.controller;
 
 import com.nacho.neo4jdemo.controller.request.CreateUserRequest;
-import com.nacho.neo4jdemo.controller.request.KnowsRequest;
+import com.nacho.neo4jdemo.controller.request.RelationshipRequest;
 import com.nacho.neo4jdemo.model.User;
 import com.nacho.neo4jdemo.service.UserService;
 import lombok.AllArgsConstructor;
@@ -24,14 +24,19 @@ public class UserController {
         userService.createUser(request.getName());
     }
 
-    @PostMapping(path = "/knows")
-    public void  knows(@RequestBody KnowsRequest request) {
-        userService.setKnowledge(request.getUserA(), request.getUserB());
+    @PostMapping(path = "/likes")
+    public void  likes(@RequestBody RelationshipRequest request) {
+        userService.setLikes(request.getUserA(), request.getUserB());
     }
 
-    @PostMapping(path = "/knows_alt")
-    public void  knowsAlt(@RequestBody KnowsRequest request) {
-        userService.setKnowledgeAlt(request.getUserA(), request.getUserB());
+    @PostMapping(path = "/likes_alt")
+    public void  likesAlt(@RequestBody RelationshipRequest request) {
+        userService.setLikesAlt(request.getUserA(), request.getUserB());
+    }
+
+    @PostMapping(path = "/hates_alt")
+    public void  hatesAlt(@RequestBody RelationshipRequest request) {
+        userService.setHatesAlt(request.getUserA(), request.getUserB());
     }
 
     @GetMapping(path = "/{name}")

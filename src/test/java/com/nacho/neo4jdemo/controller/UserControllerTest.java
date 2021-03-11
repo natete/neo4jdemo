@@ -2,7 +2,7 @@ package com.nacho.neo4jdemo.controller;
 
 import com.nacho.neo4jdemo.DemoApplication;
 import com.nacho.neo4jdemo.controller.request.CreateUserRequest;
-import com.nacho.neo4jdemo.controller.request.KnowsRequest;
+import com.nacho.neo4jdemo.controller.request.RelationshipRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.config.ObjectMapperConfig;
@@ -92,7 +92,7 @@ public class UserControllerTest {
         RestAssured
                 .given()
                 .contentType("application/json")
-                .body(new KnowsRequest(userA, userB))
+                .body(new RelationshipRequest(userA, userB))
                 .post("/user/knows")
                 .then()
                 .statusCode(HttpStatus.OK.value());
@@ -101,7 +101,7 @@ public class UserControllerTest {
         RestAssured
                 .given()
                 .contentType("application/json")
-                .body(new KnowsRequest(userB, userA))
+                .body(new RelationshipRequest(userB, userA))
                 .post("/user/knows")
                 .then()
                 .statusCode(HttpStatus.OK.value());
@@ -163,8 +163,8 @@ public class UserControllerTest {
         RestAssured
                 .given()
                 .contentType("application/json")
-                .body(new KnowsRequest(userA, userB))
-                .post("/user/knows_alt")
+                .body(new RelationshipRequest(userA, userB))
+                .post("/user/likes_alt")
                 .then()
                 .statusCode(HttpStatus.OK.value());
 
@@ -172,8 +172,25 @@ public class UserControllerTest {
         RestAssured
                 .given()
                 .contentType("application/json")
-                .body(new KnowsRequest(userB, userA))
-                .post("/user/knows_alt")
+                .body(new RelationshipRequest(userB, userA))
+                .post("/user/likes_alt")
+                .then()
+                .statusCode(HttpStatus.OK.value());
+
+        RestAssured
+                .given()
+                .contentType("application/json")
+                .body(new RelationshipRequest(userA, userB))
+                .post("/user/hates_alt")
+                .then()
+                .statusCode(HttpStatus.OK.value());
+
+
+        RestAssured
+                .given()
+                .contentType("application/json")
+                .body(new RelationshipRequest(userB, userA))
+                .post("/user/hates_alt")
                 .then()
                 .statusCode(HttpStatus.OK.value());
 

@@ -1,6 +1,7 @@
 package com.nacho.neo4jdemo.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -16,13 +17,17 @@ import java.util.Set;
 @Node("User")
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"likes", "hates"})
 public class User {
 
     @Id
     private String name;
 
-    @Relationship(type = "KNOWS")
-    private Set<User> knows;
+    @Relationship(type = "LIKES")
+    private Set<User> likes;
+
+    @Relationship(type = "HATES")
+    private Set<User> hates;
 
     @Version
     private Long version;
@@ -35,13 +40,14 @@ public class User {
 
     public User(String name) {
         this.name = name;
-        this.knows = new HashSet<>();
+        this.likes = new HashSet<>();
+        this.hates = new HashSet<>();
     }
 
     public void knows(User user) {
-        if (knows == null) {
-            this.knows = new HashSet<>();
+        if (likes == null) {
+            this.likes = new HashSet<>();
         }
-        this.knows.add(user);
+        this.likes.add(user);
     }
 }
