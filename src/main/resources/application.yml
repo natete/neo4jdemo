@@ -1,0 +1,11 @@
+spring.neo4j.uri: bolt://localhost:7687
+spring.neo4j.authentication.username: neo4j
+spring.neo4j.authentication.password: test
+logging.level.org.springframework.data.neo4j.cypher: DEBUG
+
+---
+spring.config.activate.on-profile: test
+
+spring.neo4j.uri: bolt://localhost:6666
+spring.neo4j.authentication.username: neo4j
+spring.neo4j.authentication.password: test
