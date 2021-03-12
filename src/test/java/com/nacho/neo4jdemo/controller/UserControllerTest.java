@@ -93,7 +93,7 @@ public class UserControllerTest {
                 .given()
                 .contentType("application/json")
                 .body(new RelationshipRequest(userA, userB))
-                .post("/user/knows")
+                .post("/user/likes")
                 .then()
                 .statusCode(HttpStatus.OK.value());
 
@@ -102,7 +102,7 @@ public class UserControllerTest {
                 .given()
                 .contentType("application/json")
                 .body(new RelationshipRequest(userB, userA))
-                .post("/user/knows")
+                .post("/user/likes")
                 .then()
                 .statusCode(HttpStatus.OK.value());
 
