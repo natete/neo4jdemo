@@ -10,32 +10,50 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class UserService {
 
+    private static final int USERS_NUM = 7;
+
     private final UserRepository userRepository;
 
     @Transactional
     public void createUser(String name) {
         final User user = new User(name);
-
         userRepository.save(user);
     }
 
     @Transactional
-    public void setLikes(String userA, String userB) {
+    public void createRandomUsers() {
+        for (int i = 0; i < USERS_NUM; i++) {
+            final User user = new User("user_" + i);
+            userRepository.save(user);
+        }
+//        {
+//            User user = new User("AAAA");
+//            user = userRepository.save(user);
+//        }
+//        {
+//            User user = new User("BBBB");
+//            user = userRepository.save(user);
+//        }
+    }
+
+//    @Retry(name = "neo4j")
+    @Transactional
+    public void setLikesSDN(String userA, String userB) {
         final User userThatKnows = userRepository.findById(userA).orElseThrow();
         final User userKnown = userRepository.findById(userB).orElseThrow();
 
-        userThatKnows.knows(userKnown);
+        userThatKnows.liking(userKnown);
 
         userRepository.save(userThatKnows);
     }
 
     @Transactional
-    public void setLikesAlt(String userA, String userB) {
+    public void setLikesNative(String userA, String userB) {
         userRepository.addLikes(userA, userB);
     }
 
     @Transactional
-    public void setHatesAlt(String userA, String userB) {
+    public void setHatesNative(String userA, String userB) {
         userRepository.addHates(userA, userB);
     }
 

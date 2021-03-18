@@ -12,7 +12,7 @@ public interface UserRepository extends Neo4jRepository<User, String> {
     @Query(value = "" +
             "MATCH (userA:User) " +
             "MATCH (userB:User) " +
-            "WHERE userA.name = $userA AND userB.name = $userB " +
+            "WHERE userA.userName = $userA AND userB.userName = $userB " +
             "MERGE (userA)-[:LIKES]->(userB) " +
             "SET userA.version = userA.version + 1 " +
             "RETURN userA")

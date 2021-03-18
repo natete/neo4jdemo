@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "/user")
+@RequestMapping(path = "/users")
 @AllArgsConstructor
 public class UserController {
 
@@ -24,23 +24,29 @@ public class UserController {
         userService.createUser(request.getName());
     }
 
+    @PostMapping(path= "/random")
+    public void createUsers() {
+        userService.createRandomUsers();
+    }
+
     @PostMapping(path = "/likes")
-    public void  likes(@RequestBody RelationshipRequest request) {
-        userService.setLikes(request.getUserA(), request.getUserB());
+    public void likes(@RequestBody RelationshipRequest request) {
+        userService.setLikesSDN(request.getUserA(), request.getUserB());
     }
 
-    @PostMapping(path = "/likes_alt")
+    @PostMapping(path = "/likes_nat")
     public void  likesAlt(@RequestBody RelationshipRequest request) {
-        userService.setLikesAlt(request.getUserA(), request.getUserB());
+        userService.setLikesNative(request.getUserA(), request.getUserB());
     }
 
-    @PostMapping(path = "/hates_alt")
+    @PostMapping(path = "/hates_nat")
     public void  hatesAlt(@RequestBody RelationshipRequest request) {
-        userService.setHatesAlt(request.getUserA(), request.getUserB());
+        userService.setHatesNative(request.getUserA(), request.getUserB());
     }
 
     @GetMapping(path = "/{name}")
     public User getUser(@PathVariable("name") String name) {
         return userService.getUser(name);
     }
+
 }
