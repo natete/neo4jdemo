@@ -19,12 +19,13 @@ public class UserService {
         userRepository.save(user);
     }
 
+//    @Retry(name = "neo4j")
     @Transactional
     public void setLikes(String userA, String userB) {
         final User userThatKnows = userRepository.findById(userA).orElseThrow();
         final User userKnown = userRepository.findById(userB).orElseThrow();
 
-        userThatKnows.knows(userKnown);
+        userThatKnows.liking(userKnown);
 
         userRepository.save(userThatKnows);
     }

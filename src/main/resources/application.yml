@@ -1,7 +1,27 @@
-spring.neo4j.uri: bolt://localhost:7687
+management.endpoints.web.exposure.include: metrics
+
+spring.neo4j.uri: bolt://localhost:17687
 spring.neo4j.authentication.username: neo4j
 spring.neo4j.authentication.password: test
-logging.level.org.springframework.data.neo4j.cypher: DEBUG
+
+spring.neo4j.pool.max-connection-lifetime: 5m
+spring.neo4j.pool.metrics-enabled: true
+spring.neo4j.pool.log-leaked-sessions: true
+
+# Those are the same exceptions the driver itself would retry on
+resilience4j.retry.configs.default.max-retry-attempts: 3
+resilience4j.retry.configs.default.wait-duration: 1s
+resilience4j.retry.configs.default.retry-exceptions:
+  - org.neo4j.driver.exceptions.SessionExpiredException
+  - org.neo4j.driver.exceptions.ServiceUnavailableException
+resilience4j.retry.configs.default.retry-exception-predicate: com.nacho.neo4jdemo.utils.RetrySDN6ExceptionPredicate
+# Only to make log entries appear immediate
+resilience4j.retry.configs.default.event-consumer-buffer-size: 1
+
+resilience4j.retry.instances.neo4j.base-config: default
+
+
+logging.level.org.springframework.data.neo4j: TRACE
 
 ---
 spring.config.activate.on-profile: test
